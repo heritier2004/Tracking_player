@@ -1,0 +1,26 @@
+[
+  {
+    "id": "p1",
+    "name": "John Doe",
+    "team": "Eagles FC",
+    "school": "Green Valley High",
+    "academy": "North Academy",
+    "stats": {"goals": 12, "minutes": 980, "assists": 5}
+  },
+  {
+    "id": "p2",
+    "name": "Alex Mbaye",
+    "team": "Rivers United",
+    "school": "Central School",
+    "academy": "East Academy",
+    "stats": {"goals": 20, "minutes": 1200, "assists": 7}
+  },
+  {
+    "id": "p3",
+    "name": "Sam Kamanzi",
+    "team": "Mountain Stars",
+    "school": "Hilltop School",
+    "academy": "North Academy",
+    "stats": {"goals": 8, "minutes": 700, "assists": 2}
+  }
+]
