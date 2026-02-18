@@ -35,7 +35,7 @@ function renderUsers(users){
   usersTableBody.innerHTML = '';
   (users||[]).forEach(u=>{
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${escapeHtml(u.name||'—')}</td><td>${escapeHtml(u.email||'—')}</td><td>${escapeHtml(u.role||'—')}</td><td><button class="btn small" data-id="${u.id}" onclick="editUser(this)">Edit</button> <button class="btn danger small" data-id="${u.id}" onclick="removeUser(this)">Remove</button></td>`;
+    tr.innerHTML = `<td>${escapeHtml(u.name||'—')}</td><td>${escapeHtml(u.email||'—')}</td><td>${escapeHtml(u.role||'—')}</td><td><div class="actions"><button class="btn small" data-id="${u.id}" onclick="editUser(this)">Edit</button> <button class="btn small" data-id="${u.id}" onclick="setPassword(this)">Set password</button> <button class="btn danger small" data-id="${u.id}" onclick="removeUser(this)">Remove</button></div></td>`;
     usersTableBody.appendChild(tr);
   });
 }
@@ -45,15 +45,19 @@ function escapeHtml(str){return String(str).replace(/[&<>\\\"]/g, s=>({"&":"&amp
 async function addUser(){
   const name = $('newUserName').value.trim();
   const email = $('newUserEmail').value.trim();
+  const password = $('newUserPassword') ? $('newUserPassword').value : '';
   const role = $('newUserRole').value;
   if(!name || !email){ alert('Name and email required'); return; }
   try{
-    const res = await fetch(API.users, {method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,role})});
+    const body = {name,email,role};
+    if(password) body.password = password;
+    const res = await fetch(API.users, {method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!res.ok) throw new Error(res.statusText);
     const created = await res.json();
     log('Added user: '+created.email);
     fetchUsers();
     $('newUserName').value='';$('newUserEmail').value='';
+    if($('newUserPassword')) $('newUserPassword').value='';
   }catch(e){ log('Add user failed: '+e.message); }
 }
 
@@ -77,6 +81,16 @@ window.editUser = function(btn){
     .then(r=>{ if(!r.ok) throw new Error(r.statusText); return r.json(); })
     .then(()=>{ log('Updated user '+id); fetchUsers(); })
     .catch(e=>log('Update failed: '+e.message));
+}
+
+window.setPassword = function(btn){
+  const id = btn.getAttribute('data-id');
+  const pwd = prompt('Enter new password for user');
+  if(pwd==null) return;
+  fetch(API.users+'/'+encodeURIComponent(id)+'/password',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pwd})})
+    .then(r=>{ if(!r.ok) throw new Error(r.statusText); return r.json(); })
+    .then(()=>{ log('Password set for '+id); })
+    .catch(e=>log('Set password failed: '+e.message));
 }
 
 async function runDiagnostics(){
