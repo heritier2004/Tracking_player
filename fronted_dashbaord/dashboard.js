@@ -20,8 +20,10 @@ async function checkAuth() {
       // Hide all restricted dashboards for non-authenticated users
       const adminCard = document.querySelector('.admin-card');
       const ferwafaCard = document.querySelector('.ferwafa-card');
+      const academyCard = document.querySelector('.academy-card');
       if (adminCard) adminCard.style.display = 'none';
       if (ferwafaCard) ferwafaCard.style.display = 'none';
+      if (academyCard) academyCard.style.display = 'none';
     }
   } catch (e) {
     console.error('Auth check failed:', e);
@@ -29,8 +31,10 @@ async function checkAuth() {
     $('logoutBtn').style.display = 'none';
     
     // Hide restricted dashboards on error
-    const adminCard = document.querySelector('.admin-card');
-    const ferwafaCard = document.querySelector('.ferwafa-card');
+    const academyCard = document.querySelector('.academy-card');
+    if (adminCard) adminCard.style.display = 'none';
+    if (ferwafaCard) ferwafaCard.style.display = 'none';
+    if (academyCard) academyment.querySelector('.ferwafa-card');
     if (adminCard) adminCard.style.display = 'none';
     if (ferwafaCard) ferwafaCard.style.display = 'none';
   }
@@ -39,21 +43,28 @@ async function checkAuth() {
 function showDashboardsForRole(role) {
   const adminCard = document.querySelector('.admin-card');
   const ferwafaCard = document.querySelector('.ferwafa-card');
+  const academyCard = document.querySelector('.academy-card');
   
   // Hide all restricted dashboards by default
   if (adminCard) adminCard.style.display = 'none';
   if (ferwafaCard) ferwafaCard.style.display = 'none';
+  if (academyCard) academyCard.style.display = 'none';
   
   // Show based on role
   if (role === 'admin') {
     // Admin can see everything
     if (adminCard) adminCard.style.display = 'block';
     if (ferwafaCard) ferwafaCard.style.display = 'block';
+    if (academyCard) academyCard.style.display = 'block';
   } else if (role === 'ferwafa') {
     // Ferwafa can only see players dashboard
     if (ferwafaCard) ferwafaCard.style.display = 'block';
+  } else if (role === 'manager') {
+    // Manager can see academy and ferwafa
+    if (academyCard) academyCard.style.display = 'block';
+    if (ferwafaCard) ferwafaCard.style.display = 'block';
   }
-  // Other roles (viewer, manager) see only generic dashboards
+  // Other roles (viewer) see only generic dashboards
 }
 
 async function logout() {

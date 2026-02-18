@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Rwanda National Youth Championship",
+    "date": "2026-04-15",
+    "location": "Kigali",
+    "status": "upcoming",
+    "matches": 5
+  },
+  {
+    "id": "2",
+    "name": "East African Youth Cup",
+    "date": "2026-06-01",
+    "location": "Kampala, Uganda",
+    "status": "upcoming",
+    "matches": 6
+  },
+  {
+    "id": "3",
+    "name": "Kigali Inter-Academy League",
+    "date": "2026-02-01",
+    "location": "Various",
+    "status": "active",
+    "matches": 10
+  }
+]

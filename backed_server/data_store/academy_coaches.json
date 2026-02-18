@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Coach Patrick Mbabazi",
+    "role": "Head Coach",
+    "specialization": "Striker Training",
+    "experience": "15",
+    "contact": "patrick.mbabazi@academy.rw"
+  },
+  {
+    "id": "2",
+    "name": "Coach Marie Uwiringiyimana",
+    "role": "Fitness Coach",
+    "specialization": "Physical Conditioning",
+    "experience": "12",
+    "contact": "marie.uwiri@academy.rw"
+  },
+  {
+    "id": "3",
+    "name": "Coach Olivier Nkusi",
+    "role": "Goalkeeper Coach",
+    "specialization": "Goal Keeping",
+    "experience": "10",
+    "contact": "olivier.nkusi@academy.rw"
+  }
+]

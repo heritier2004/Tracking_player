@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Jean Mukiza",
+    "position": "Striker",
+    "age": 18,
+    "grade": "A",
+    "height": "185",
+    "weight": "78",
+    "joined": "2024-01-15"
+  },
+  {
+    "id": "2",
+    "name": "Eric Habimana",
+    "position": "Midfielder",
+    "age": 17,
+    "grade": "B",
+    "height": "175",
+    "weight": "70",
+    "joined": "2024-02-01"
+  },
+  {
+    "id": "3",
+    "name": "Gisele Ingabire",
+    "position": "Goalkeeper",
+    "age": 19,
+    "grade": "A",
+    "height": "188",
+    "weight": "82",
+    "joined": "2023-06-10"
+  },
+  {
+    "id": "4",
+    "name": "David Nshimirimana",
+    "position": "Defender",
+    "age": 16,
+    "grade": "C",
+    "height": "180",
+    "weight": "76",
+    "joined": "2024-03-05"
+  },
+  {
+    "id": "5",
+    "name": "Alice Kayitesi",
+    "position": "Midfielder",
+    "age": 17,
+    "grade": "B",
+    "height": "168",
+    "weight": "62",
+    "joined": "2024-01-20"
+  }
+]
