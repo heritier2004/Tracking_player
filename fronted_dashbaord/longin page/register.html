@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register | Rwanda Football System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="soccer-field"></div>
+  </div>
+
+  <div class="stars-container">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+  </div>
+
+  <!-- Floating Soccer Balls -->
+  <div class="floating-soccer">
+    <i class="fas fa-futbol"></i>
+  </div>
+  <div class="floating-soccer" style="left: 85%; top: 30%; animation-delay: 2s;"></div>
+  <div class="floating-soccer" style="left: 15%; top: 70%; animation-delay: 4s;"></div>
+
+  <div class="register-wrapper">
+    <div class="register-container">
+      <!-- Header Section -->
+      <div class="register-header">
+        <div class="header-badge">
+          <i class="fas fa-star"></i> NEW PLAYER REGISTRATION <i class="fas fa-star"></i>
+        </div>
+        
+        <!-- Logo Section -->
+        <div class="logo-section">
+          <div class="logo-bounce">
+            <i class="fas fa-futbol"></i>
+            <div class="logo-glow"></div>
+          </div>
+          <h1 class="title-animate">Rwanda Football</h1>
+          <p class="federation-text">Fédération Rwandaise de Football</p>
+          <div class="flag-strip">
+            <div class="flag-color green"></div>
+            <div class="flag-color yellow"></div>
+            <div class="flag-color red"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Form -->
+      <h2 class="register-title">
+        <i class="fas fa-users-cog"></i> Create Your Account
+      </h2>
+      <p class="subtitle">Join the Rwanda Football Community</p>
+
+      <form id="registerForm">
+        <!-- Username Input -->
+        <div class="input-group">
+          <div class="input-icon">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <input type="text" id="username" placeholder="Your Username" required>
+          <div class="input-underline"></div>
+        </div>
+
+        <!-- Email Input -->
+        <div class="input-group">
+          <div class="input-icon">
+            <i class="fas fa-envelope-circle-check"></i>
+          </div>
+          <input type="email" id="email" placeholder="Your Email Address" required>
+          <div class="input-underline"></div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="input-group">
+          <div class="input-icon">
+            <i class="fas fa-key"></i>
+          </div>
+          <input type="password" id="password" placeholder="Create Password" required>
+          <div class="input-underline"></div>
+        </div>
+
+        <!-- Confirm Password Input -->
+        <div class="input-group">
+          <div class="input-icon">
+            <i class="fas fa-lock-open"></i>
+          </div>
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+          <div class="input-underline"></div>
+        </div>
+
+        <!-- Organization Selection Title -->
+        <h3 class="org-section-title">
+          <i class="fas fa-flag"></i> Choose Your Organization
+        </h3>
+        <p class="org-subtitle">Select where you want to play</p>
+
+        <!-- Organization Selection Grid -->
+        <div class="org-grid">
+          <!-- Scout Organization -->
+          <div class="org-card scout-card">
+            <input type="radio" name="organization" value="scout" id="orgScout" required>
+            <label for="orgScout">
+              <div class="org-icon-wrapper">
+                <div class="org-icon">
+                  <i class="fas fa-binoculars"></i>
+                </div>
+                <div class="org-badge">Scout</div>
+              </div>
+              <h4>Scout</h4>
+              <p>Find & Recruit Talent</p>
+            </label>
+          </div>
+
+          <!-- Academy Organization -->
+          <div class="org-card academy-card">
+            <input type="radio" name="organization" value="academy" id="orgAcademy">
+            <label for="orgAcademy">
+              <div class="org-icon-wrapper">
+                <div class="org-icon">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="org-badge">Academy</div>
+              </div>
+              <h4>Academy</h4>
+              <p>Train Future Stars</p>
+            </label>
+          </div>
+
+          <!-- School Organization -->
+          <div class="org-card school-card">
+            <input type="radio" name="organization" value="school" id="orgSchool">
+            <label for="orgSchool">
+              <div class="org-icon-wrapper">
+                <div class="org-icon">
+                  <i class="fas fa-school"></i>
+                </div>
+                <div class="org-badge">School</div>
+              </div>
+              <h4>School</h4>
+              <p>School Football Team</p>
+            </label>
+          </div>
+
+          <!-- Club Organization -->
+          <div class="org-card club-card">
+            <input type="radio" name="organization" value="club" id="orgClub">
+            <label for="orgClub">
+              <div class="org-icon-wrapper">
+                <div class="org-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="org-badge">Club</div>
+              </div>
+              <h4>Club</h4>
+              <p>Professional Club</p>
+            </label>
+          </div>
+        </div>
+
+        <p id="orgWarning" class="org-warning" style="display: none;">
+          <i class="fas fa-exclamation-triangle"></i> Please select an organization
+        </p>
+
+        <!-- Register Button -->
+        <button type="submit" class="register-btn">
+          <span class="btn-text">
+            <i class="fas fa-trophy"></i> REGISTER NOW
+          </span>
+          <span class="btn-shine"></span>
+          <span class="btn-glow"></span>
+        </button>
+      </form>
+
+      <!-- Links -->
+      <div class="register-links">
+        <p>Already a member? <a href="index.html" class="link-hover">
+          <i class="fas fa-sign-in-alt"></i> Login to your account
+        </a></p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-text">
+        <p>
+          <i class="fas fa-soccer"></i> © 2026 Rwanda Football Federation <i class="fas fa-soccer"></i>
+        </p>
+        <p class="footer-subtitle">Excellence in Every Match</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="register.js"></script>
+</body>
+</html>

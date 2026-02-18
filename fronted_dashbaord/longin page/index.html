@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Rwanda Football System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="longin.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="stars-container">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+  </div>
+
+  <div class="login-wrapper">
+    <div class="login-container">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <div class="logo-bounce">
+          <i class="fas fa-futbol"></i>
+        </div>
+        <h1 class="title-animate">Rwanda Football</h1>
+        <p class="federation-text">Fédération Rwandaise de Football</p>
+        <div class="flag-strip">
+          <div class="flag-color green"></div>
+          <div class="flag-color yellow"></div>
+          <div class="flag-color red"></div>
+        </div>
+      </div>
+
+      <!-- Login Form Screen -->
+      <div id="loginScreen" class="login-screen active">
+        <h2 class="login-title">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </h2>
+        <p class="subtitle">Access Your Dashboard</p>
+
+        <form id="loginForm">
+          <!-- Username Input -->
+          <div class="input-group">
+            <div class="input-icon">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <input type="text" id="username" placeholder="Username" required>
+            <div class="input-underline"></div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="input-group">
+            <div class="input-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <input type="password" id="password" placeholder="Password" required>
+            <div class="input-underline"></div>
+          </div>
+
+          <!-- Role Selection Title -->
+          <h3 class="role-section-title">
+            <i class="fas fa-shield-alt"></i> Select Your Dashboard
+          </h3>
+          
+          <!-- Role Selection Grid -->
+          <div class="role-grid-inline">
+            <!-- Scout Role -->
+            <div class="role-card-inline">
+              <input type="radio" name="selectedRole" value="scout" id="roleScout" required>
+              <label for="roleScout">
+                <div class="role-icon-inline">
+                  <i class="fas fa-binoculars"></i>
+                </div>
+                <span class="role-name">Scout</span>
+                <span class="role-desc">Player Analysis</span>
+              </label>
+            </div>
+
+            <!-- Academy Role -->
+            <div class="role-card-inline">
+              <input type="radio" name="selectedRole" value="academy" id="roleAcademy">
+              <label for="roleAcademy">
+                <div class="role-icon-inline">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="role-name">Academy</span>
+                <span class="role-desc">Training Center</span>
+              </label>
+            </div>
+
+            <!-- School Role -->
+            <div class="role-card-inline">
+              <input type="radio" name="selectedRole" value="school" id="roleSchool">
+              <label for="roleSchool">
+                <div class="role-icon-inline">
+                  <i class="fas fa-school"></i>
+                </div>
+                <span class="role-name">School</span>
+                <span class="role-desc">School Team</span>
+              </label>
+            </div>
+
+            <!-- Club Role -->
+            <div class="role-card-inline">
+              <input type="radio" name="selectedRole" value="club" id="roleClub">
+              <label for="roleClub">
+                <div class="role-icon-inline">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <span class="role-name">Club</span>
+                <span class="role-desc">Professional Club</span>
+              </label>
+            </div>
+
+            <!-- Admin Role (Only visible to admin users) -->
+            <div id="adminCardInline" class="role-card-inline admin-role-inline" style="display: none;">
+              <input type="radio" name="selectedRole" value="admin" id="roleAdmin">
+              <label for="roleAdmin">
+                <div class="role-icon-inline">
+                  <i class="fas fa-cog"></i>
+                </div>
+                <span class="role-name">Admin</span>
+                <span class="role-desc">Administration</span>
+              </label>
+            </div>
+
+            <!-- FERWAFA Role (Only visible to admin users) -->
+            <div id="ferwafaCardInline" class="role-card-inline admin-role-inline" style="display: none;">
+              <input type="radio" name="selectedRole" value="ferwafa" id="roleFerwafa">
+              <label for="roleFerwafa">
+                <div class="role-icon-inline">
+                  <i class="fas fa-crown"></i>
+                </div>
+                <span class="role-name">FERWAFA</span>
+                <span class="role-desc">Federation</span>
+              </label>
+            </div>
+          </div>
+
+          <p id="roleWarning" class="role-warning" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i> Please select a dashboard
+          </p>
+
+          <!-- Submit Button -->
+          <button type="submit" class="login-btn">
+            <span class="btn-text">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </span>
+            <span class="btn-shine"></span>
+          </button>
+        </form>
+
+        <!-- Links -->
+        <div class="links">
+          <a href="forgot.html" class="link-hover">
+            <i class="fas fa-key"></i> Forgot Password?
+          </a>
+          <span class="divider">•</span>
+          <a href="register.html" class="link-hover">
+            <i class="fas fa-user-plus"></i> Create Account
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-text">
+        <p>
+          <i class="fas fa-copyright"></i> 2026 Rwanda Football Federation
+        </p>
+        <p class="footer-subtitle">Professional Football Management System</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="longin.js"></script>
+</body>
+</html>

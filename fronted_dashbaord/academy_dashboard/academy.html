@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Academy Dashboard | Football Talent Management</title>
+  <link rel="stylesheet" href="academy.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script defer src="academy.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="logo"><i class="fas fa-school"></i> Academy Panel</div>
+      <ul class="menu">
+        <li class="active" onclick="showSection('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</li>
+        <li onclick="showSection('players')"><i class="fas fa-users"></i> Players</li>
+        <li onclick="showSection('training')"><i class="fas fa-dumbbell"></i> Training Sessions</li>
+        <li onclick="showSection('performance')"><i class="fas fa-star"></i> Performance</li>
+        <li onclick="showSection('communication')"><i class="fas fa-comments"></i> Communication</li>
+        <li class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+      </ul>
+      <div class="academy-location">
+        <strong>Location:</strong>
+        <p id="academyLocation">Kigali Academy Grounds, Kigali</p>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <h1>Academy Dashboard</h1>
+        <div class="top-meta">
+          <span class="badge">Academy View</span>
+          <small id="academyShort">Kigali Academy — Youth Development</small>
+        </div>
+      </header>
+
+      <!-- Dashboard -->
+      <section id="dashboard" class="section active">
+        <div class="section-header">
+          <h2>Academy Overview</h2>
+          <div class="filter-controls">
+            <select id="academyFilter" onchange="filterAcademyData()">
+              <option value="">All Programs</option>
+              <option value="u12">U12</option>
+              <option value="u15">U15</option>
+              <option value="u18">U18</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="kpi-cards">
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="fas fa-users"></i></div>
+            <div class="kpi-content">
+              <h3>Total Academy Players</h3>
+              <p class="kpi-number" id="academyTotalPlayers">--</p>
+              <small>Registered</small>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="fas fa-trophy"></i></div>
+            <div class="kpi-content">
+              <h3>Top Prospects</h3>
+              <p class="kpi-number" id="academyTopProspects">--</p>
+              <small>Scouted</small>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="fas fa-running"></i></div>
+            <div class="kpi-content">
+              <h3>Active Trainees</h3>
+              <p class="kpi-number" id="academyActiveTrainees">--</p>
+              <small>In Current Cycle</small>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="fas fa-user-check"></i></div>
+            <div class="kpi-content">
+              <h3>Recruited Players</h3>
+              <p class="kpi-number" id="academyRecruited">--</p>
+              <small>To Clubs/Schools</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-container">
+          <div class="chart-card">
+            <h3>Academy Performance Distribution</h3>
+            <canvas id="academyPerformanceChart"></canvas>
+          </div>
+
+          <div class="chart-card">
+            <h3>Players by Age Group</h3>
+            <canvas id="academyAgeChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Players -->
+      <section id="players" class="section">
+        <div class="section-header">
+          <h2>Academy Players</h2>
+          <div class="search-sort-controls">
+            <input id="academyPlayerSearch" placeholder="Search players..." onkeyup="searchAcademyPlayers()">
+            <select id="academyPlayerSort" onchange="sortAcademyPlayers()">
+              <option value="rating">Top Rated</option>
+              <option value="name">By Name</option>
+              <option value="age">By Age</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="academyPlayersGrid" class="players-grid"></div>
+      </section>
+
+      <!-- Training / Performance -->
+      <section id="training" class="section">
+        <div class="section-header">
+          <h2>Training Sessions</h2>
+          <button class="btn" onclick="openNewSessionModal()">New Session</button>
+        </div>
+
+        <div class="sessions-list" id="sessionsList">
+          <!-- Sessions populated via JS -->
+        </div>
+      </section>
+
+      <section id="performance" class="section">
+        <div class="section-header">
+          <h2>Detailed Performance</h2>
+          <div class="player-selector-card">
+            <label>Select Player:</label>
+            <select id="academyPlayerDetailSelect" onchange="loadAcademyPlayerPerformance()">
+              <option value="">Choose a player...</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="academyDetailedStats" style="display:none;">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h4>Technical</h4>
+              <canvas id="academyTechnicalChart"></canvas>
+            </div>
+            <div class="stat-card">
+              <h4>Physical</h4>
+              <canvas id="academyPhysicalChart"></canvas>
+            </div>
+            <div class="stat-card">
+              <h4>Progress</h4>
+              <canvas id="academyProgressChart"></canvas>
+            </div>
+          </div>
+          <div id="academyStatsTable"></div>
+        </div>
+      </section>
+
+      <!-- Communication -->
+      <section id="communication" class="section">
+        <div class="section-header">
+          <h2>Recommendations & Outreach</h2>
+        </div>
+
+        <div class="communication-container">
+          <div class="message-form-card">
+            <h3>Send Recommendation</h3>
+            <form id="academyCommForm" onsubmit="sendAcademyRecommendation(event)">
+              <div class="form-group">
+                <label>Recipient Type:</label>
+                <div class="radio-group">
+                  <label><input name="recType" type="radio" value="club" checked> Club</label>
+                  <label><input name="recType" type="radio" value="school"> School</label>
+                  <label><input name="recType" type="radio" value="scout"> Scout</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Institution:</label>
+                <select id="academyInstitutionSelect" required>
+                  <option value="">Choose institution...</option>
+                  <option value="patriots-club">Patriots Club</option>
+                  <option value="kigali-fc">Kigali FC</option>
+                  <option value="stars-academy">Stars Academy</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Player:</label>
+                <select id="academyPlayerForRec" required>
+                  <option value="">Choose player...</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Message:</label>
+                <textarea id="academyMessageBody" rows="5" required></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="communication-history-card">
+            <h3>Outreach History</h3>
+            <div id="academyCommList"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

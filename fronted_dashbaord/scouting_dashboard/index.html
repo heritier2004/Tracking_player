@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scout Dashboard | Player Performance Analytics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
+  <link rel="stylesheet" href="scout.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="fas fa-binoculars"></i> Scout Panel
+    </div>
+
+    <ul class="menu">
+      <li class="active" onclick="showSection('dashboard')">
+        <i class="fas fa-chart-line"></i> Dashboard
+      </li>
+      <li onclick="showSection('players')">
+        <i class="fas fa-users"></i> Player Analysis
+      </li>
+      <li onclick="showSection('performance')">
+        <i class="fas fa-star"></i> Performance Stats
+      </li>
+      <li onclick="showSection('communication')">
+        <i class="fas fa-comments"></i> Communication
+      </li>
+      <li onclick="showSection('reports')">
+        <i class="fas fa-file-pdf"></i> Reports
+      </li>
+      <li class="logout" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <h1>Scout Dashboard</h1>
+      <span class="school-info">
+        <i class="fas fa-building"></i> Football Talent Management System
+      </span>
+    </header>
+
+    <!-- ========================================
+         DASHBOARD SECTION - OVERVIEW
+         ======================================== -->
+    <section id="dashboard" class="section active">
+      <div class="section-header">
+        <h2>Performance Overview</h2>
+        <div class="filter-controls">
+          <select id="dashboardFilter" onchange="filterDashboardData()">
+            <option value="">All Teams</option>
+            <option value="school">Schools</option>
+            <option value="club">Clubs</option>
+            <option value="academy">Academies</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-cards">
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="kpi-content">
+            <h3>Total Players</h3>
+            <p class="kpi-number" id="totalPlayers">248</p>
+            <small>Under Assessment</small>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="kpi-content">
+            <h3>Top Rated Players</h3>
+            <p class="kpi-number" id="topRatedPlayers">42</p>
+            <small>★★★★★ Rating</small>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <i class="fas fa-fire"></i>
+          </div>
+          <div class="kpi-content">
+            <h3>Rising Stars</h3>
+            <p class="kpi-number" id="risingStars">18</p>
+            <small>Improving Performance</small>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <i class="fas fa-target"></i>
+          </div>
+          <div class="kpi-content">
+            <h3>Target Players</h3>
+            <p class="kpi-number" id="targetPlayers">7</p>
+            <small>Ready for Recruitment</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS SECTION -->
+      <div class="charts-container">
+        <!-- OVERALL PERFORMANCE CHART -->
+        <div class="chart-card">
+          <h3>Overall Performance Distribution</h3>
+          <canvas id="performanceChart"></canvas>
+        </div>
+
+        <!-- POSITION ANALYSIS CHART -->
+        <div class="chart-card">
+          <h3>Players by Position</h3>
+          <canvas id="positionChart"></canvas>
+        </div>
+      </div>
+
+      <!-- SKILL ANALYSIS CHARTS -->
+      <div class="charts-container">
+        <!-- SKILL RATING CHART -->
+        <div class="chart-card">
+          <h3>Average Skill Ratings</h3>
+          <canvas id="skillsChart"></canvas>
+        </div>
+
+        <!-- TEAM DISTRIBUTION CHART -->
+        <div class="chart-card">
+          <h3>Players by Team Type</h3>
+          <canvas id="teamDistributionChart"></canvas>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================
+         PLAYER ANALYSIS SECTION
+         ======================================== -->
+    <section id="players" class="section">
+      <div class="section-header">
+        <h2>Player Analysis & Scouting</h2>
+        <div class="search-sort-controls">
+          <input type="text" id="playerSearchInput" placeholder="Search player..." onkeyup="searchPlayers()">
+          <select id="playerSortSelect" onchange="sortPlayers()">
+            <option value="rating">Top Rated</option>
+            <option value="name">By Name</option>
+            <option value="position">By Position</option>
+            <option value="age">By Age</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- PLAYER CARDS GRID -->
+      <div class="players-grid" id="playersGrid">
+        <!-- Player cards will be generated here -->
+      </div>
+
+    </section>
+
+    <!-- ========================================
+         PERFORMANCE STATS SECTION
+         ======================================== -->
+    <section id="performance" class="section">
+      <div class="section-header">
+        <h2>Detailed Performance Statistics</h2>
+        <button class="btn btn-primary" onclick="exportPerformanceData()">
+          <i class="fas fa-download"></i> Export Report
+        </button>
+      </div>
+
+      <!-- PLAYER SELECTION FOR DETAILED ANALYSIS -->
+      <div class="player-selector-card">
+        <label>Select Player for Detailed Analysis:</label>
+        <select id="playerDetailSelect" onchange="loadPlayerPerformance()">
+          <option value="">Choose a player...</option>
+        </select>
+      </div>
+
+      <!-- DETAILED STATS CONTAINER -->
+      <div id="detailedStatsContainer" style="display: none;">
+        <!-- PLAYER HEADER -->
+        <div class="player-stats-header">
+          <div class="player-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="player-header-info">
+            <h2 id="playerStatsName">Player Name</h2>
+            <p id="playerStatsPosition">Position</p>
+            <div class="player-rating">
+              <span id="playerOverallRating">8.5</span>
+              <div class="stars" id="playerStars"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h4>Technical Skills</h4>
+            <canvas id="technicalSkillsChart"></canvas>
+          </div>
+
+          <div class="stat-card">
+            <h4>Physical Attributes</h4>
+            <canvas id="physicalAttributesChart"></canvas>
+          </div>
+
+          <div class="stat-card">
+            <h4>Match Performance</h4>
+            <canvas id="matchPerformanceChart"></canvas>
+          </div>
+
+          <div class="stat-card">
+            <h4>Weekly Progress</h4>
+            <canvas id="weeklyProgressChart"></canvas>
+          </div>
+        </div>
+
+        <!-- DETAILED STATS TABLE -->
+        <div class="stats-table-card">
+          <h3>Season Statistics</h3>
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Average</th>
+                <th>vs Team Avg</th>
+              </tr>
+            </thead>
+            <tbody id="statsTableBody">
+              <!-- Stats will be populated here -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SCOUT NOTES -->
+        <div class="scout-notes-card">
+          <h3>Scout Notes & Observations</h3>
+          <div class="notes-editor">
+            <textarea id="scoutNotes" placeholder="Add observations about this player..." rows="5"></textarea>
+            <button class="btn btn-primary" onclick="saveScoutNotes()">Save Notes</button>
+          </div>
+          <div class="notes-display" id="notesDisplay">
+            <!-- Previous notes will appear here -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================
+         COMMUNICATION SECTION
+         ======================================== -->
+    <section id="communication" class="section">
+      <div class="section-header">
+        <h2>Team Communication & Recommendations</h2>
+      </div>
+
+      <!-- SEND MESSAGE / RECOMMENDATION -->
+      <div class="communication-container">
+        <!-- MESSAGE FORM -->
+        <div class="message-form-card">
+          <h3>Send Recommendation to School/Club</h3>
+          
+          <form id="communicationForm" onsubmit="sendCommunication(event)">
+            <!-- RECIPIENT SELECTION -->
+            <div class="form-group">
+              <label>Recipient Type:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="recipientType" value="school" checked> School</label>
+                <label><input type="radio" name="recipientType" value="club"> Club</label>
+                <label><input type="radio" name="recipientType" value="academy"> Academy</label>
+              </div>
+            </div>
+
+            <!-- TEAM SELECTION -->
+            <div class="form-group">
+              <label>Select Team/Institution:</label>
+              <select id="teamSelect" required>
+                <option value="">Choose team...</option>
+                <option value="green-hills-school">Green Hills School</option>
+                <option value="stars-academy">Stars Academy</option>
+                <option value="kigali-fc">Kigali FC</option>
+                <option value="patriots-club">Patriots Club</option>
+                <option value="masters-academy">Masters Academy</option>
+              </select>
+            </div>
+
+            <!-- CONTACT PERSON -->
+            <div class="form-group">
+              <label>Contact Person (Coach/Manager):</label>
+              <input type="text" id="contactPerson" placeholder="Name of contact" required>
+            </div>
+
+            <!-- PLAYER SELECTION -->
+            <div class="form-group">
+              <label>Select Player:</label>
+              <select id="playerForRecommendation" required>
+                <option value="">Choose player...</option>
+              </select>
+            </div>
+
+            <!-- RECOMMENDATION LEVEL -->
+            <div class="form-group">
+              <label>Recommendation Level:</label>
+              <div class="rating-selector">
+                <input type="radio" name="recommendationLevel" value="5"> ★★★★★ Highly Recommended
+                <input type="radio" name="recommendationLevel" value="4"> ★★★★☆ Strongly Recommended
+                <input type="radio" name="recommendationLevel" value="3" checked> ★★★☆☆ Recommended
+                <input type="radio" name="recommendationLevel" value="2"> ★★☆☆☆ Consider
+                <input type="radio" name="recommendationLevel" value="1"> ★☆☆☆☆ Monitor
+              </div>
+            </div>
+
+            <!-- MESSAGE BODY -->
+            <div class="form-group">
+              <label>Message/Details:</label>
+              <textarea id="messageBody" placeholder="Provide details about the player, strengths, areas for improvement..." rows="6" required></textarea>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Send Recommendation
+              </button>
+              <button type="reset" class="btn btn-secondary">
+                <i class="fas fa-redo"></i> Clear
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- COMMUNICATION HISTORY -->
+        <div class="communication-history-card">
+          <h3>Communication History</h3>
+          <div class="filter-tabs">
+            <button class="tab-btn active" onclick="filterCommunication('all')">All</button>
+            <button class="tab-btn" onclick="filterCommunication('school')">Schools</button>
+            <button class="tab-btn" onclick="filterCommunication('club')">Clubs</button>
+            <button class="tab-btn" onclick="filterCommunication('academy')">Academies</button>
+          </div>
+
+          <div class="communication-list" id="communicationList">
+            <!-- Communication history will be displayed here -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================
+         REPORTS SECTION
+         ======================================== -->
+    <section id="reports" class="section">
+      <div class="section-header">
+        <h2>Scout Reports & Analytics</h2>
+        <button class="btn btn-primary" onclick="generateFullReport()">
+          <i class="fas fa-file-pdf"></i> Generate Full Report
+        </button>
+      </div>
+
+      <!-- REPORT OPTIONS -->
+      <div class="report-options">
+        <div class="report-card">
+          <h3>Top Talent Report</h3>
+          <p>Players with highest overall ratings and potential</p>
+          <button class="btn btn-outline" onclick="generateTopTalentReport()">
+            Generate Report
+          </button>
+        </div>
+
+        <div class="report-card">
+          <h3>Position-Specific Report</h3>
+          <p>Analysis by player position and role requirements</p>
+          <button class="btn btn-outline" onclick="generatePositionReport()">
+            Generate Report
+          </button>
+        </div>
+
+        <div class="report-card">
+          <h3>Rising Stars Report</h3>
+          <p>Players showing consistent improvement and growth</p>
+          <button class="btn btn-outline" onclick="generateRisingStarsReport()">
+            Generate Report
+          </button>
+        </div>
+
+        <div class="report-card">
+          <h3>Team Comparison Report</h3>
+          <p>Compare talent across different schools and clubs</p>
+          <button class="btn btn-outline" onclick="generateTeamComparisonReport()">
+            Generate Report
+          </button>
+        </div>
+      </div>
+
+      <!-- RECENT REPORTS -->
+      <div class="recent-reports">
+        <h3>Recent Reports</h3>
+        <div class="reports-list">
+          <div class="report-item">
+            <div class="report-info">
+              <h4>Top Talent Analysis - Jan 2026</h4>
+              <p>Generated 2 days ago | 248 players analyzed</p>
+            </div>
+            <div class="report-actions">
+              <button class="btn btn-small"><i class="fas fa-download"></i> Download</button>
+              <button class="btn btn-small"><i class="fas fa-eye"></i> View</button>
+            </div>
+          </div>
+
+          <div class="report-item">
+            <div class="report-info">
+              <h4>Rising Stars Report - Jan 2026</h4>
+              <p>Generated 5 days ago | 42 players identified</p>
+            </div>
+            <div class="report-actions">
+              <button class="btn btn-small"><i class="fas fa-download"></i> Download</button>
+              <button class="btn btn-small"><i class="fas fa-eye"></i> View</button>
+            </div>
+          </div>
+
+          <div class="report-item">
+            <div class="report-info">
+              <h4>Position-Specific Talent Report</h4>
+              <p>Generated 1 week ago | All positions covered</p>
+            </div>
+            <div class="report-actions">
+              <button class="btn btn-small"><i class="fas fa-download"></i> Download</button>
+              <button class="btn btn-small"><i class="fas fa-eye"></i> View</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<!-- MODALS -->
+
+<!-- PLAYER DETAIL MODAL -->
+<div id="playerDetailModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalPlayerName">Player Name</h2>
+      <button class="close-btn" onclick="closeModal('playerDetailModal')">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body" id="modalPlayerBody">
+      <!-- Player details will be loaded here -->
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('playerDetailModal')">Close</button>
+      <button class="btn btn-primary" onclick="recommendPlayer()">Recommend Player</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div id="modalOverlay" class="modal-overlay" onclick="closeAllModals()"></div>
+
+<!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="scouting.js"></script>
+
+</body>
+</html>
