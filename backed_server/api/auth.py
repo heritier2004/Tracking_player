@@ -52,5 +52,9 @@ def logout():
 def me():
     user = session.get('user')
     if not user:
-        return jsonify({'user': None}), 200
-    return jsonify({'user': user}), 200
+        return jsonify({'error': 'not authenticated'}), 401
+    return jsonify({
+        'email': user.get('email'),
+        'id': user.get('id'),
+        'role': user.get('role', 'viewer')
+    }), 200

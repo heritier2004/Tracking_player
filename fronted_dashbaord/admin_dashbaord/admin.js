@@ -125,8 +125,8 @@ async function checkAuth(){
   try{
     const res = await fetch(API.me, {credentials:'include'});
     if(!res.ok) throw new Error('auth check failed');
-    const js = await res.json();
-    if(js.user){
+    const user = await res.json();
+    if(user && user.email){
       hideLogin();
       fetchUsers();
     }else{
