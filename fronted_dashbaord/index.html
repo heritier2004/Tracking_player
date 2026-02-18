@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tracking Player - Dashboard</title>
+  <link rel="stylesheet" href="shared/css/global.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-section">
+        <h1>Tracking Player</h1>
+        <p>Player Management & Analytics System</p>
+      </div>
+      <div class="user-section">
+        <span id="userDisplay" style="color: rgba(255,255,255,0.9); margin-right: 20px;"></span>
+        <button id="logoutBtn" class="btn btn-secondary" style="display:none;">Logout</button>
+        <a href="longin%20page/index.html" id="loginLink" class="btn">Login</a>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="welcome-section">
+        <h2>Welcome to the System</h2>
+        <p>Select your dashboard below to get started</p>
+      </section>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card admin-card">
+          <div class="card-header">
+            <h3>Admin Dashboard</h3>
+            <span class="badge">System Admin</span>
+          </div>
+          <p>Manage users, system settings, backups, and run diagnostics</p>
+          <a href="admin_dashbaord/index.html" class="card-btn">Go to Admin</a>
+        </div>
+
+        <div class="dashboard-card ferwafa-card">
+          <div class="card-header">
+            <h3>Ferwafa Players</h3>
+            <span class="badge">Analytics</span>
+          </div>
+          <p>View real-time player statistics, rankings, and performance metrics</p>
+          <a href="ferwafa_dashboard/index.html" class="card-btn">View Players</a>
+        </div>
+
+        <div class="dashboard-card scout-card">
+          <div class="card-header">
+            <h3>Scouting Dashboard</h3>
+            <span class="badge">Coming Soon</span>
+          </div>
+          <p>Analyze player performance and scouting reports</p>
+          <a href="scouting_dashboard/index.html" class="card-btn">Go to Scouting</a>
+        </div>
+
+        <div class="dashboard-card school-card">
+          <div class="card-header">
+            <h3>School Dashboard</h3>
+            <span class="badge">Coming Soon</span>
+          </div>
+          <p>School management and student player records</p>
+          <a href="school_dashboard/index.html" class="card-btn">Go to Schools</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Tracking Player System. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
