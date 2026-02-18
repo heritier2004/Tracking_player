@@ -3,36 +3,73 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ferwafa Dashboard</title>
+  <title>Ferwafa Dashboard - Players Overview</title>
   <link rel="stylesheet" href="../shared/css/global.css" />
   <link rel="stylesheet" href="ferwafa.css" />
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Ferwafa — Players Overview</h1>
       <div>
-        <a href="/" class="btn">Home</a>
+        <h1>⚽ Ferwafa Players</h1>
+        <p style="color:rgba(255,255,255,0.9);margin-top:8px;font-size:1rem">Real-time player statistics & rankings</p>
+      </div>
+      <div>
+        <a href="/" class="btn">← Back Home</a>
       </div>
     </header>
 
-    <div style="margin-top:12px" class="card">
+    <div class="card">
       <div class="filters">
-        <input id="filterSchool" placeholder="School" />
-        <input id="filterAcademy" placeholder="Academy" />
-        <input id="minGoals" type="number" placeholder="Min goals" style="width:120px" />
-        <button id="applyBtn" class="btn">Apply</button>
-        <button id="clearBtn" class="btn" style="background:#6b7280">Clear</button>
+        <input id="filterSchool" placeholder="🏫 Filter by School" />
+        <input id="filterAcademy" placeholder="🎯 Filter by Academy" />
+        <input id="minGoals" type="number" placeholder="⚽ Min Goals" style="width:140px" />
+        <button id="applyBtn" class="btn">Apply Filters</button>
+        <button id="clearBtn" class="btn" style="background:#6b7280">Clear All</button>
+      </div>
+
+      <div id="loadingSpinner" style="display:none;text-align:center;padding:40px">
+        <div style="font-size:2rem;animation:spin 1s linear infinite">⌛</div>
+        <p style="margin-top:12px;color:#6b7280">Loading players...</p>
       </div>
 
       <table id="playersTable">
         <thead>
-          <tr><th>Rank</th><th>Name</th><th>Team</th><th>School</th><th>Academy</th><th>Goals</th><th>Minutes</th></tr>
+          <tr>
+            <th style="width:60px">🏆 Rank</th>
+            <th>👤 Name</th>
+            <th>🏟️ Team</th>
+            <th>🏫 School</th>
+            <th>🎯 Academy</th>
+            <th style="width:80px">⚽ Goals</th>
+            <th style="width:100px">⏱️ Minutes</th>
+          </tr>
         </thead>
         <tbody></tbody>
       </table>
+
+      <div id="noResults" style="display:none;text-align:center;padding:40px;color:#6b7280">
+        <p style="font-size:1.1rem">No players found matching your filters</p>
+      </div>
     </div>
   </div>
+
+  <style>
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    header p {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      header p {
+        display: none;
+      }
+    }
+  </style>
 
   <script src="ferwafa.js"></script>
 </body>
