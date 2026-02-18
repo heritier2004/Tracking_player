@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "name": "Albert Nzeyimana",
+    "position": "Head Coach",
+    "department": "Coaching",
+    "contact": "albert.nzey@club.rw",
+    "since": "2020"
+  },
+  {
+    "id": "2",
+    "name": "Patrick Twahirwa",
+    "position": "Fitness Director",
+    "department": "Medical & Fitness",
+    "contact": "patrick.twah@club.rw",
+    "since": "2021"
+  },
+  {
+    "id": "3",
+    "name": "Rebecca Mukamurenzi",
+    "position": "Club Manager",
+    "department": "Administration",
+    "contact": "rebecca.muka@club.rw",
+    "since": "2019"
+  },
+  {
+    "id": "4",
+    "name": "Vincent Habimana",
+    "position": "Assistant Coach",
+    "department": "Coaching",
+    "contact": "vincent.habi@club.rw",
+    "since": "2022"
+  }
+]

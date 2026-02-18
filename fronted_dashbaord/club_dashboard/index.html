@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Club Dashboard</title>
+  <link rel="stylesheet" href="../shared/css/global.css" />
+  <link rel="stylesheet" href="club.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Club Management</h1>
+        <p style="color:rgba(255,255,255,0.9);margin-top:8px;font-size:1rem">Team management and performance tracking</p>
+      </div>
+      <div>
+        <a href="../index.html" class="btn">Back Home</a>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="teams">Teams</button>
+      <button class="tab-btn" data-tab="roster">Team Roster</button>
+      <button class="tab-btn" data-tab="matches">Matches</button>
+      <button class="tab-btn" data-tab="staff">Staff</button>
+      <button class="tab-btn" data-tab="stats">Statistics</button>
+    </div>
+
+    <!-- TEAMS TAB -->
+    <div id="teams-tab" class="tab-content">
+      <div class="card">
+        <h2>Club Teams</h2>
+        <div style="margin-bottom:20px">
+          <button id="addTeamBtn" class="btn" style="background:#10b981">Add Team</button>
+        </div>
+
+        <table id="teamsTable">
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Category</th>
+              <th>Coach</th>
+              <th>Players</th>
+              <th>Founded</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ROSTER TAB -->
+    <div id="roster-tab" class="tab-content" style="display:none">
+      <div class="card">
+        <h2>Team Roster</h2>
+        <div class="filters">
+          <select id="teamFilter" style="padding:8px;border:2px solid #e5e7eb;border-radius:8px">
+            <option value="">Select Team</option>
+          </select>
+          <input id="playerSearchFilter" placeholder="Search player..." />
+          <button id="applyRosterBtn" class="btn">Apply</button>
+          <button id="clearRosterBtn" class="btn" style="background:#6b7280">Clear</button>
+          <button id="addPlayerRosterBtn" class="btn" style="background:#10b981">Add Player</button>
+        </div>
+
+        <table id="rosterTable">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Position</th>
+              <th>Number</th>
+              <th>Age</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MATCHES TAB -->
+    <div id="matches-tab" class="tab-content" style="display:none">
+      <div class="card">
+        <h2>Match Schedule</h2>
+        <div style="margin-bottom:20px">
+          <button id="addMatchBtn" class="btn" style="background:#10b981">Schedule Match</button>
+        </div>
+
+        <table id="matchesTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Home Team</th>
+              <th>Away Team</th>
+              <th>Venue</th>
+              <th>Result</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAFF TAB -->
+    <div id="staff-tab" class="tab-content" style="display:none">
+      <div class="card">
+        <h2>Club Staff</h2>
+        <div style="margin-bottom:20px">
+          <button id="addStaffBtn" class="btn" style="background:#10b981">Add Staff Member</button>
+        </div>
+
+        <table id="staffTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Department</th>
+              <th>Contact</th>
+              <th>Since</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STATS TAB -->
+    <div id="stats-tab" class="tab-content" style="display:none">
+      <div class="grid-3">
+        <div class="card">
+          <h3>Club Overview</h3>
+          <div style="padding:12px">
+            <p>Total Teams: <span id="totalTeams" style="font-weight:bold;color:#667eea">0</span></p>
+            <p>Total Players: <span id="totalPlayers" style="font-weight:bold;color:#667eea">0</span></p>
+            <p>Match Wins: <span id="totalWins" style="font-weight:bold;color:#10b981">0</span></p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Top Scorers</h3>
+          <div style="padding:12px;font-size:0.9rem">
+            <p>Data will load from teams...</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Recent Matches</h3>
+          <div style="padding:12px;font-size:0.9rem">
+            <p>Latest match results shown here...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Team Modal -->
+  <div id="addTeamModal" class="modal" style="display:none">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('addTeamModal')">&times;</span>
+      <h2>Add New Team</h2>
+      <div class="form-group">
+        <input id="teamName" placeholder="Team Name" />
+        <select id="teamCategory" style="padding:8px;border:2px solid #e5e7eb;border-radius:8px;width:100%">
+          <option value="">Select Category</option>
+          <option value="Senior">Senior</option>
+          <option value="Reserve">Reserve</option>
+          <option value="Youth">Youth</option>
+        </select>
+        <input id="teamCoach" placeholder="Head Coach Name" />
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn" onclick="saveTeam()">Save</button>
+          <button class="btn" style="background:#6b7280" onclick="closeModal('addTeamModal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="club.js"></script>
+</body>
+</html>

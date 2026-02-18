@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Kigali City FC",
+    "category": "Senior",
+    "coach": "Albert Nzeyimana",
+    "playerCount": 22,
+    "founded": "2015"
+  },
+  {
+    "id": "2",
+    "name": "ASK FC reserves",
+    "category": "Reserve",
+    "coach": "Jean Mapendo",
+    "playerCount": 18,
+    "founded": "2015"
+  },
+  {
+    "id": "3",
+    "name": "Kigali City Youth",
+    "category": "Youth",
+    "coach": "Marie Nkusi",
+    "playerCount": 20,
+    "founded": "2018"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "date": "2026-02-15",
+    "homeTeam": "Kigali City FC",
+    "awayTeam": "Armée Patriotique Rwandaise",
+    "venue": "Amahoro Stadium",
+    "result": "2-1",
+    "status": "completed"
+  },
+  {
+    "id": "2",
+    "date": "2026-02-22",
+    "homeTeam": "Kigali City FC",
+    "awayTeam": "AS Kigali",
+    "venue": "Amahoro Stadium",
+    "result": "1-1",
+    "status": "completed"
+  },
+  {
+    "id": "3",
+    "date": "2026-03-01",
+    "homeTeam": "Muhanga City FC",
+    "awayTeam": "Kigali City FC",
+    "venue": "Muhanga Stadium",
+    "result": null,
+    "status": "scheduled"
+  },
+  {
+    "id": "4",
+    "date": "2026-03-08",
+    "homeTeam": "Kigali City FC",
+    "awayTeam": "Police FC",
+    "venue": "Amahoro Stadium",
+    "result": null,
+    "status": "scheduled"
+  }
+]

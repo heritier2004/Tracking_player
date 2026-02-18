@@ -21,9 +21,11 @@ async function checkAuth() {
       const adminCard = document.querySelector('.admin-card');
       const ferwafaCard = document.querySelector('.ferwafa-card');
       const academyCard = document.querySelector('.academy-card');
+      const clubCard = document.querySelector('.club-card');
       if (adminCard) adminCard.style.display = 'none';
       if (ferwafaCard) ferwafaCard.style.display = 'none';
       if (academyCard) academyCard.style.display = 'none';
+      if (clubCard) clubCard.style.display = 'none';
     }
   } catch (e) {
     console.error('Auth check failed:', e);
@@ -31,12 +33,14 @@ async function checkAuth() {
     $('logoutBtn').style.display = 'none';
     
     // Hide restricted dashboards on error
+    const adminCard = document.querySelector('.admin-card');
+    const ferwafaCard = document.querySelector('.ferwafa-card');
     const academyCard = document.querySelector('.academy-card');
+    const clubCard = document.querySelector('.club-card');
     if (adminCard) adminCard.style.display = 'none';
     if (ferwafaCard) ferwafaCard.style.display = 'none';
-    if (academyCard) academyment.querySelector('.ferwafa-card');
-    if (adminCard) adminCard.style.display = 'none';
-    if (ferwafaCard) ferwafaCard.style.display = 'none';
+    if (academyCard) academyCard.style.display = 'none';
+    if (clubCard) clubCard.style.display = 'none';
   }
 }
 
@@ -44,11 +48,13 @@ function showDashboardsForRole(role) {
   const adminCard = document.querySelector('.admin-card');
   const ferwafaCard = document.querySelector('.ferwafa-card');
   const academyCard = document.querySelector('.academy-card');
+  const clubCard = document.querySelector('.club-card');
   
   // Hide all restricted dashboards by default
   if (adminCard) adminCard.style.display = 'none';
   if (ferwafaCard) ferwafaCard.style.display = 'none';
   if (academyCard) academyCard.style.display = 'none';
+  if (clubCard) clubCard.style.display = 'none';
   
   // Show based on role
   if (role === 'admin') {
@@ -56,12 +62,14 @@ function showDashboardsForRole(role) {
     if (adminCard) adminCard.style.display = 'block';
     if (ferwafaCard) ferwafaCard.style.display = 'block';
     if (academyCard) academyCard.style.display = 'block';
+    if (clubCard) clubCard.style.display = 'block';
   } else if (role === 'ferwafa') {
     // Ferwafa can only see players dashboard
     if (ferwafaCard) ferwafaCard.style.display = 'block';
   } else if (role === 'manager') {
-    // Manager can see academy and ferwafa
+    // Manager can see academy, club, and ferwafa
     if (academyCard) academyCard.style.display = 'block';
+    if (clubCard) clubCard.style.display = 'block';
     if (ferwafaCard) ferwafaCard.style.display = 'block';
   }
   // Other roles (viewer) see only generic dashboards
