@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, current_app, send_file, session
 import os, json, uuid, shutil, datetime, sys
 from functools import wraps
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint('admin_api', __name__)
 
@@ -42,13 +43,19 @@ def admin_required(f):
 @admin_required
 def get_users():
     users = load_users()
-    return jsonify(users)
+    # Strip sensitive fields
+    safe = []
+    for u in users:
+        uu = {k: v for k, v in u.items() if k != 'password_hash'}
+        safe.append(uu)
+    return jsonify(safe)
 
 @bp.route('/api/users', methods=['POST'])
 @admin_required
 def create_user():
     data = request.get_json() or {}
     users = load_users()
+    password = data.get('password')
     new_user = {
         'id': str(uuid.uuid4()),
         'name': data.get('name'),
@@ -56,6 +63,8 @@ def create_user():
         'role': data.get('role', 'viewer'),
         'created_at': datetime.datetime.utcnow().isoformat()+'Z'
     }
+    if password:
+        new_user['password_hash'] = generate_password_hash(password)
     users.append(new_user)
     save_users(users)
     return jsonify(new_user), 201
@@ -70,7 +79,8 @@ def update_user(user_id):
             u['name'] = data.get('name', u.get('name'))
             u['role'] = data.get('role', u.get('role'))
             save_users(users)
-            return jsonify(u)
+            uu = {k: v for k, v in u.items() if k != 'password_hash'}
+            return jsonify(uu)
     return jsonify({'error':'not found'}), 404
 
 @bp.route('/api/users/<user_id>', methods=['DELETE'])
@@ -82,6 +92,22 @@ def delete_user(user_id):
         return jsonify({'error':'not found'}), 404
     save_users(new)
     return jsonify({'ok':True})
+
+
+@bp.route('/api/users/<user_id>/password', methods=['POST'])
+@admin_required
+def set_password(user_id):
+    data = request.get_json() or {}
+    password = data.get('password')
+    if not password:
+        return jsonify({'error':'password required'}), 400
+    users = load_users()
+    for u in users:
+        if u.get('id') == user_id:
+            u['password_hash'] = generate_password_hash(password)
+            save_users(users)
+            return jsonify({'ok': True})
+    return jsonify({'error':'not found'}), 404
 
 @bp.route('/api/admin/diag', methods=['GET'])
 @admin_required
