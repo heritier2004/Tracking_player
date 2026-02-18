@@ -43,9 +43,8 @@ function render(players){
   players.forEach((p,i)=>{
     const tr = document.createElement('tr');
     const rank = i + 1;
-    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
     tr.innerHTML = `
-      <td>${medal} ${rank}</td>
+      <td>${rank}</td>
       <td><strong>${escapeHtml(p.name)}</strong></td>
       <td>${escapeHtml(p.team||'—')}</td>
       <td>${escapeHtml(p.school||'—')}</td>
