@@ -1,0 +1,115 @@
+// Admin dashboard front-end logic extracted from ondex.html
+// Update `API` endpoints to match your backend routes if necessary.
+const API = {
+  users: '/api/users',
+  diagnostics: '/api/admin/diag',
+  update: '/api/admin/update',
+  backup: '/api/admin/backup'
+};
+
+const $ = id => document.getElementById(id);
+const usersTableBody = document.querySelector('#usersTable tbody');
+const logsEl = $('logs');
+
+function log(msg){
+  const now = new Date().toLocaleString();
+  logsEl.textContent = `[${now}] ${msg}\n` + logsEl.textContent;
+}
+
+async function fetchUsers(){
+  try{
+    const res = await fetch(API.users);
+    if(!res.ok) throw new Error(res.statusText);
+    const users = await res.json();
+    renderUsers(users);
+    log('Loaded users');
+  }catch(e){
+    log('Error loading users: '+e.message);
+  }
+}
+
+function renderUsers(users){
+  usersTableBody.innerHTML = '';
+  (users||[]).forEach(u=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${escapeHtml(u.name||'—')}</td><td>${escapeHtml(u.email||'—')}</td><td>${escapeHtml(u.role||'—')}</td><td><button class="btn small" data-id="${u.id}" onclick="editUser(this)">Edit</button> <button class="btn danger small" data-id="${u.id}" onclick="removeUser(this)">Remove</button></td>`;
+    usersTableBody.appendChild(tr);
+  });
+}
+
+function escapeHtml(str){return String(str).replace(/[&<>\\\"]/g, s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[s]);}
+
+async function addUser(){
+  const name = $('newUserName').value.trim();
+  const email = $('newUserEmail').value.trim();
+  const role = $('newUserRole').value;
+  if(!name || !email){ alert('Name and email required'); return; }
+  try{
+    const res = await fetch(API.users, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,role})});
+    if(!res.ok) throw new Error(res.statusText);
+    const created = await res.json();
+    log('Added user: '+created.email);
+    fetchUsers();
+    $('newUserName').value='';$('newUserEmail').value='';
+  }catch(e){ log('Add user failed: '+e.message); }
+}
+
+async function removeUser(button){
+  const id = button.getAttribute('data-id');
+  if(!confirm('Remove user?')) return;
+  try{
+    const res = await fetch(API.users+'/'+encodeURIComponent(id), {method:'DELETE'});
+    if(!res.ok) throw new Error(res.statusText);
+    log('Removed user '+id);
+    fetchUsers();
+  }catch(e){ log('Remove failed: '+e.message); }
+}
+
+window.editUser = function(btn){
+  const id = btn.getAttribute('data-id');
+  const name = prompt('New name');
+  const role = prompt('New role (admin/manager/viewer)');
+  if(name==null) return;
+  fetch(API.users+'/'+encodeURIComponent(id),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,role})})
+    .then(r=>{ if(!r.ok) throw new Error(r.statusText); return r.json(); })
+    .then(()=>{ log('Updated user '+id); fetchUsers(); })
+    .catch(e=>log('Update failed: '+e.message));
+}
+
+async function runDiagnostics(){
+  log('Running diagnostics...');
+  try{
+    const res = await fetch(API.diagnostics);
+    const text = await res.text();
+    log('Diagnostics result:\n'+text);
+  }catch(e){ log('Diagnostics failed: '+e.message); }
+}
+
+async function checkUpdate(){
+  log('Checking for updates...');
+  try{
+    const res = await fetch(API.update, {method:'POST'});
+    const json = await res.json();
+    log('Update check: '+JSON.stringify(json));
+  }catch(e){ log('Update failed: '+e.message); }
+}
+
+async function createBackup(){
+  log('Creating backup...');
+  try{
+    const res = await fetch(API.backup, {method:'POST'});
+    const json = await res.json();
+    log('Backup: '+(json.message||'done'));
+  }catch(e){ log('Backup failed: '+e.message); }
+}
+
+// Wire up buttons
+document.addEventListener('DOMContentLoaded',()=>{
+  $('addUserBtn').addEventListener('click',addUser);
+  $('refreshBtn').addEventListener('click',fetchUsers);
+  $('debugBtn').addEventListener('click',runDiagnostics);
+  $('updateBtn').addEventListener('click',checkUpdate);
+  $('backupBtn').addEventListener('click',createBackup);
+  $('logoutBtn').addEventListener('click',()=>{ location.href='/logout'; });
+  fetchUsers();
+});
