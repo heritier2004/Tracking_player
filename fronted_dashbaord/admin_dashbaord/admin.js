@@ -4,7 +4,10 @@ const API = {
   users: '/api/users',
   diagnostics: '/api/admin/diag',
   update: '/api/admin/update',
-  backup: '/api/admin/backup'
+  backup: '/api/admin/backup',
+  login: '/api/login',
+  logout: '/api/logout',
+  me: '/api/me'
 };
 
 const $ = id => document.getElementById(id);
@@ -18,7 +21,7 @@ function log(msg){
 
 async function fetchUsers(){
   try{
-    const res = await fetch(API.users);
+    const res = await fetch(API.users, {credentials:'include'});
     if(!res.ok) throw new Error(res.statusText);
     const users = await res.json();
     renderUsers(users);
@@ -45,7 +48,7 @@ async function addUser(){
   const role = $('newUserRole').value;
   if(!name || !email){ alert('Name and email required'); return; }
   try{
-    const res = await fetch(API.users, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,role})});
+    const res = await fetch(API.users, {method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,role})});
     if(!res.ok) throw new Error(res.statusText);
     const created = await res.json();
     log('Added user: '+created.email);
@@ -58,7 +61,7 @@ async function removeUser(button){
   const id = button.getAttribute('data-id');
   if(!confirm('Remove user?')) return;
   try{
-    const res = await fetch(API.users+'/'+encodeURIComponent(id), {method:'DELETE'});
+    const res = await fetch(API.users+'/'+encodeURIComponent(id), {method:'DELETE',credentials:'include'});
     if(!res.ok) throw new Error(res.statusText);
     log('Removed user '+id);
     fetchUsers();
@@ -70,7 +73,7 @@ window.editUser = function(btn){
   const name = prompt('New name');
   const role = prompt('New role (admin/manager/viewer)');
   if(name==null) return;
-  fetch(API.users+'/'+encodeURIComponent(id),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,role})})
+  fetch(API.users+'/'+encodeURIComponent(id),{method:'PUT',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,role})})
     .then(r=>{ if(!r.ok) throw new Error(r.statusText); return r.json(); })
     .then(()=>{ log('Updated user '+id); fetchUsers(); })
     .catch(e=>log('Update failed: '+e.message));
@@ -79,7 +82,7 @@ window.editUser = function(btn){
 async function runDiagnostics(){
   log('Running diagnostics...');
   try{
-    const res = await fetch(API.diagnostics);
+    const res = await fetch(API.diagnostics, {credentials:'include'});
     const text = await res.text();
     log('Diagnostics result:\n'+text);
   }catch(e){ log('Diagnostics failed: '+e.message); }
@@ -88,7 +91,7 @@ async function runDiagnostics(){
 async function checkUpdate(){
   log('Checking for updates...');
   try{
-    const res = await fetch(API.update, {method:'POST'});
+    const res = await fetch(API.update, {method:'POST',credentials:'include'});
     const json = await res.json();
     log('Update check: '+JSON.stringify(json));
   }catch(e){ log('Update failed: '+e.message); }
@@ -97,19 +100,66 @@ async function checkUpdate(){
 async function createBackup(){
   log('Creating backup...');
   try{
-    const res = await fetch(API.backup, {method:'POST'});
+    const res = await fetch(API.backup, {method:'POST',credentials:'include'});
     const json = await res.json();
     log('Backup: '+(json.message||'done'));
   }catch(e){ log('Backup failed: '+e.message); }
 }
 
 // Wire up buttons
+async function checkAuth(){
+  try{
+    const res = await fetch(API.me, {credentials:'include'});
+    if(!res.ok) throw new Error('auth check failed');
+    const js = await res.json();
+    if(js.user){
+      hideLogin();
+      fetchUsers();
+    }else{
+      showLogin();
+    }
+  }catch(e){
+    showLogin();
+  }
+}
+
+async function login(){
+  const email = $('loginEmail').value.trim();
+  const password = $('loginPassword').value;
+  if(!email || !password){ alert('Email and password required'); return; }
+  try{
+    const res = await fetch(API.login, {method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    if(!res.ok) throw new Error('invalid credentials');
+    await res.json();
+    hideLogin();
+    await fetchUsers();
+    log('Signed in');
+  }catch(e){ alert('Login failed: '+e.message); }
+}
+
+async function logout(){
+  try{
+    await fetch(API.logout, {method:'POST',credentials:'include'});
+  }catch(e){}
+  showLogin();
+}
+
+function showLogin(){
+  const overlay = $('loginOverlay');
+  if(overlay) overlay.style.display = 'flex';
+}
+function hideLogin(){
+  const overlay = $('loginOverlay');
+  if(overlay) overlay.style.display = 'none';
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   $('addUserBtn').addEventListener('click',addUser);
   $('refreshBtn').addEventListener('click',fetchUsers);
   $('debugBtn').addEventListener('click',runDiagnostics);
   $('updateBtn').addEventListener('click',checkUpdate);
   $('backupBtn').addEventListener('click',createBackup);
-  $('logoutBtn').addEventListener('click',()=>{ location.href='/logout'; });
-  fetchUsers();
+  $('logoutBtn').addEventListener('click',logout);
+  $('loginBtn').addEventListener('click',login);
+  checkAuth();
 });

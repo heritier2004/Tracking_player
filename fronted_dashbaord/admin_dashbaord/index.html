@@ -27,6 +27,21 @@
 </head>
 <body>
 	<div class="container">
+
+	<!-- Login overlay shown when not authenticated -->
+	<div id="loginOverlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,8,15,0.5);z-index:60;">
+		<div style="width:360px;background:#fff;padding:18px;border-radius:8px;box-shadow:0 8px 32px rgba(2,6,23,0.36)">
+			<h3 style="margin:0 0 8px 0">Admin sign in</h3>
+			<div style="display:flex;flex-direction:column;gap:8px">
+				<input id="loginEmail" placeholder="Email" />
+				<input id="loginPassword" type="password" placeholder="Password" />
+				<div style="display:flex;gap:8px;justify-content:flex-end">
+					<button id="loginBtn" class="btn primary">Sign in</button>
+				</div>
+				<div class="muted" style="font-size:13px">Use the admin credentials set in environment variables.</div>
+			</div>
+		</div>
+	</div>
 		<header>
 			<h1>Admin Dashboard — System Owner</h1>
 			<div>
@@ -69,7 +84,7 @@
 					</div>
 				</div>
 
-				<div class="card">
+								<div class="card">
 					<h2 class="small">Logs</h2>
 					<div id="logs" style="max-height:300px;overflow:auto;font-family:monospace;font-size:12px;color:#222;white-space:pre-wrap"></div>
 				</div>
